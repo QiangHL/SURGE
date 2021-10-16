@@ -1,4 +1,5 @@
 [General]
+http-api = 111111@0.0.0.0:6171
 # 通用设置
 # > 增强版 Wi-Fi 助理
 # (在 Wi-Fi 网络不佳时尝试使用数据网络建立连接，请仅当使用不限量的数据流量时开启)
@@ -14,16 +15,17 @@ tls-provider = openssl
 # > 自定义 GeoIP 数据库
 geoip-maxmind-url = https://raw.githubusercontent.com/JMVoid/ipip2mmdb/release/Country.mmdb
 # > IPv6 支持（默认关闭）
-ipv6 = false
+ipv6 = true
 # > 允许 Wi-Fi 访问 (仅 iOS，若允许远程访问将「false」改为「true」)
-allow-wifi-access = false
+allow-wifi-access = true
 wifi-access-http-port = 6152
 wifi-access-socks5-port = 6153
 # > 允许 Wi-Fi 访问 (仅 macOS，若允许远程访问将「127.0.0.1」改为「0.0.0.0」)
-http-listen = 127.0.0.1:6152
-socks5-listen = 127.0.0.1:6153
+http-listen = 0.0.0.0:6152
+socks5-listen = 0.0.0.0:6153
 # > 兼容模式 (仅 iOS)
 # compatibility-mode = 0
+# 配合快捷指令
 # > 跳过代理
 skip-proxy = 127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, localhost, *.local, passenger.t3go.cn
 # > 排除简单主机名
@@ -47,6 +49,8 @@ always-real-ip = msftconnecttest.com, msftncsi.com, *.msftconnecttest.com, *.msf
 force-http-engine-hosts = *.ott.cibntv.net, 123.59.31.1,119.18.193.135, 122.14.246.33, 175.102.178.52, 116.253.24.*, 175.6.26.*, 220.169.153.*
 # > VIF Excluded Routes
 tun-excluded-routes = 239.255.255.250/32
+external-controller-access = 111111@0.0.0.0:6170
+http-api-web-dashboard = true
 
 [Replica]
 # 0 为关闭，1 为开启
@@ -65,20 +69,20 @@ hide-udp = 0
 [Proxy]
 🌐Direct = direct
 ⛔️Reject = reject
-网易云VIP解锁 = http, 106.52.127.72, 19951
+🔐网易云VIP解锁 = http, 106.52.127.72, 19951
 
 [Proxy Group]
 📶数据切换 = ssid, default = 🔎节点选择, cellular = 🆓联通免流, "Mac mini" = 🌐Direct
-🔎节点选择 = select, ♻️自动选择, ☑️手动切换, ♾负载均衡, no-alert=0, hidden=0
-♻️自动选择 = url-test, no-alert=0, hidden=0, policy-path=https://机场订阅地址, update-interval=0
-☑️手动切换 = select, 🌐Direct, ⛔️Reject, no-alert=0, hidden=0, policy-path=https://机场订阅地址, update-interval=0
-📺国际媒体 = select, ♻️自动选择, ☁️机场订阅, no-alert=0, hidden=0
+🔎节点选择 = select, ♻️自动选择, ✅手动切换, 🌀负载均衡, no-alert=0, hidden=0
+♻️自动选择 = url-test, no-alert=0, hidden=0, policy-path=https://sub.store/download/ceshi, update-interval=0
+✅手动切换 = select, 🌐Direct, ⛔️Reject, no-alert=0, hidden=0, policy-path=https://sub.store/download/collection/Qiang, update-interval=0
+🌀负载均衡 = load-balance, policy-path=https://sub.store/download/muguayun, update-interval=0, no-alert=0, hidden=0, persistent=1
+🎯国际媒体 = select, ♻️自动选择, ✅手动切换, ☁️机场订阅, no-alert=0, hidden=0
 🎬国内媒体 = select, 🌐Direct, no-alert=0, hidden=1
 🚫全球拦截 = select, ⛔️Reject, no-alert=0, hidden=1
-♾负载均衡 = fallback, no-alert=0, hidden=1, policy-path=https://sub.store/download/collection/Qiang, update-interval=0
-🆓联通免流 = url-test, policy-path=https://免流机场地址, update-interval=3600, no-alert=0, hidden=0
-🐟 漏网之鱼 = select, ♻️自动选择, 🔎节点选择, ☑️手动切换, no-alert=0, hidden=0
-☁️机场订阅 = select, policy-path=https://机场订阅地址, update-interval=0, no-alert=0, hidden=0
+🐟漏网之鱼 = select, 🔎节点选择, 🌐Direct, ♻️自动选择, ✅手动切换, no-alert=0, hidden=0
+🆓联通免流 = url-test, policy-path=https://sub.store/download/mlsao, update-interval=3600, no-alert=0, hidden=0
+☁️机场订阅 = select, policy-path=https://sub.store/download/muguayun, update-interval=0, no-alert=0, hidden=0
 
 [Rule]
 CELLULAR-CARRIER,460-01,📶数据切换
@@ -104,9 +108,12 @@ DOMAIN-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/
 RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Privacy.list,🚫全球拦截
 # Hijacking 运营商劫持或恶意网站
 RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Hijacking.list,🚫全球拦截
+# 解锁网易云音乐
+# RULE-SET,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/NetEaseMusic.list,🔐网易云VIP解锁
+# DOMAIN-SUFFIX,music.126.net,🌐Direct
 # Streaming 国际流媒体服务
 RULE-SET,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list,🆓联通免流
-RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/StreamingMedia/Streaming.list,📺国际媒体
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/StreamingMedia/Streaming.list,🎯国际媒体
 # StreamingSE 中国流媒体服务（面向海外版本）
 RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/StreamingMedia/StreamingSE.list,🎬国内媒体
 # Apple 服务
@@ -120,7 +127,7 @@ RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ru
 RULE-SET,LAN,🌐Direct
 # GeoIP China
 GEOIP,CN,🌐Direct
-FINAL,☑️手动切换,dns-failed
+FINAL,🌐Direct,dns-failed
 
 [Host]
 # Firebase Cloud Messaging
