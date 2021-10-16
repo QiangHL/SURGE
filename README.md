@@ -1,1 +1,226 @@
 # SURGE
+
+[General]
+# 通用设置
+# > 增强版 Wi-Fi 助理
+# (在 Wi-Fi 网络不佳时尝试使用数据网络建立连接，请仅当使用不限量的数据流量时开启)
+wifi-assist = false
+# > Internet 测试 URL
+internet-test-url = http://wifi.vivo.com.cn/generate_204
+# > 代理测速 URL
+proxy-test-url = http://cp.cloudflare.com/generate_204
+# > 测试超时（秒）
+test-timeout = 5
+# > TLS 引擎
+tls-provider = openssl
+# > 自定义 GeoIP 数据库
+geoip-maxmind-url = https://raw.githubusercontent.com/JMVoid/ipip2mmdb/release/Country.mmdb
+# > IPv6 支持（默认关闭）
+ipv6 = false
+# > 允许 Wi-Fi 访问 (仅 iOS，若允许远程访问将「false」改为「true」)
+allow-wifi-access = false
+wifi-access-http-port = 6152
+wifi-access-socks5-port = 6153
+# > 允许 Wi-Fi 访问 (仅 macOS，若允许远程访问将「127.0.0.1」改为「0.0.0.0」)
+http-listen = 127.0.0.1:6152
+socks5-listen = 127.0.0.1:6153
+# > 兼容模式 (仅 iOS)
+# compatibility-mode = 0
+# > 跳过代理
+skip-proxy = 127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, localhost, *.local, passenger.t3go.cn
+# > 排除简单主机名
+exclude-simple-hostnames = true
+# > Network framwork
+network-framework = false
+# > DNS 服务器 (如无必要不建议使用 DNS over HTTPS)
+dns-server = 119.29.29.29, system
+# > 从 /etc/hosts 读取 DNS 记录
+read-etc-hosts = true
+# 高级设置
+# > 日志级别
+loglevel = notify
+# > 当遇到 REJECT 策略时返回错误页
+show-error-page-for-reject = true
+# > Always Real IP Hosts
+always-real-ip = msftconnecttest.com, msftncsi.com, *.msftconnecttest.com, *.msftncsi.com, *.srv.nintendo.net, *.stun.playstation.net, xbox.*.microsoft.com, *.xboxlive.com, *.battlenet.com.cn, *.battlenet.com, *.blzstatic.cn, *.battle.net
+# > TCP Force HTTP Hosts
+# KOOWO - 123.59.31.1,119.18.193.135, 122.14.246.33, 175.102.178.52
+# TencentVideo - 116.253.24.*, 175.6.26.*, 220.169.153.*
+force-http-engine-hosts = *.ott.cibntv.net, 123.59.31.1,119.18.193.135, 122.14.246.33, 175.102.178.52, 116.253.24.*, 175.6.26.*, 220.169.153.*
+# > VIF Excluded Routes
+tun-excluded-routes = 239.255.255.250/32
+
+[Replica]
+# 0 为关闭，1 为开启
+# > 隐藏 Apple 请求
+hide-apple-request = 0
+# > 隐藏崩溃追踪器请求
+hide-crash-reporter-request = 1
+# > 隐藏 UDP 会话
+hide-udp = 0
+# > 关键词过滤器
+# none（关闭关键词过滤器） / whitelist（blacklist（仅记录包含关键字的请求）） / blacklist（仅记录不包含关键字的请求） / pattern（匹配通配符的请求）
+# keyword-filter-type = none
+# > 关键词
+# keyword-filter = (null)
+
+[Proxy]
+🌐Direct = direct
+⛔️Reject = reject
+网易云VIP解锁 = http, 106.52.127.72, 19951
+
+[Proxy Group]
+📶数据切换 = ssid, default = 🔎节点选择, cellular = 🆓联通免流, "Mac mini" = 🌐Direct
+🔎节点选择 = select, ♾负载均衡, ♻️自动选择, no-alert=0, hidden=0
+📺国际媒体 = select, 🔎节点选择, ♻️自动选择, ☁️代理订阅, no-alert=0, hidden=0
+🎬国内媒体 = select, 🌐Direct, no-alert=0, hidden=0
+🚫全球拦截 = select, ⛔️Reject, 🌐Direct, no-alert=0, hidden=0
+♾负载均衡 = fallback, ☁️代理订阅, no-alert=0, hidden=0
+♻️自动选择 = url-test, ☁️代理订阅, no-alert=0, hidden=0
+☑️手动切换 = select, 🔎节点选择, 🌐Direct, ⛔️Reject, no-alert=0, hidden=0
+🆓联通免流 = url-test, policy-path=https://sub.store/download/mlsao, update-interval=3600, no-alert=0, hidden=1
+☁️代理订阅 = select, policy-path=https://sub.store/download/muguayun, update-interval=0, no-alert=0, hidden=0
+🐟 漏网之鱼 = select, ♻️自动选择, 🔎节点选择, ☑️手动切换, no-alert=0, hidden=0
+
+[Rule]
+CELLULAR-CARRIER,460-01,📶数据切换
+AND,((PROTOCOL,UDP), (DEST-PORT,443)),REJECT-NO-DROP
+# Client
+PROCESS-NAME,UUBooster,🌐Direct
+# > Download
+PROCESS-NAME,aria2c,🌐Direct
+PROCESS-NAME,fdm,🌐Direct
+PROCESS-NAME,Folx,🌐Direct
+PROCESS-NAME,NetTransport,🌐Direct
+PROCESS-NAME,Thunder,🌐Direct
+PROCESS-NAME,Transmission,🌐Direct
+PROCESS-NAME,uTorrent,🌐Direct
+PROCESS-NAME,WebTorrent,🌐Direct
+PROCESS-NAME,WebTorrent Helper,🌐Direct
+# Unbreak 后续规则修正
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Unbreak.list,🌐Direct
+# Advertising 广告
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Advertising.list,🚫全球拦截
+DOMAIN-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/AdvertisingPlus.list,🚫全球拦截
+# Privacy 隐私
+# RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Privacy.list,🚫全球拦截
+# Hijacking 运营商劫持或恶意网站
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Hijacking.list,🚫全球拦截
+# Streaming 国际流媒体服务
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/StreamingMedia/Streaming.list,📺国际媒体
+# StreamingSE 中国流媒体服务（面向海外版本）
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/StreamingMedia/StreamingSE.list,🎬国内媒体
+# Apple 服务
+# 在 https://github.com/DivineEngine/Profiles/tree/master/Surge/Ruleset/Extra/Apple 获取所需服务引入 Ruleset 类型规则及新建策略组。
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Extra/Apple/Apple.list,🌐Direct
+# Global 全球加速
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Global.list,🔎节点选择
+# China 中国直连
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/China.list,🌐Direct
+# Local Area Network 局域网
+RULE-SET,LAN,🌐Direct
+# GeoIP China
+GEOIP,CN,🌐Direct
+FINAL,☑️手动切换,dns-failed
+
+[Host]
+# Firebase Cloud Messaging
+mtalk.google.com = 108.177.125.188
+# Google Dl
+dl.google.com = server:119.29.29.29
+dl.l.google.com = server:119.29.29.29
+# TP-Link
+tplogin.cn = server:syslib
+tplinklogin.net = server:syslib
+melogin.cn = server:syslib
+falogin.cn = server:syslib
+# 解锁了「模块」功能的用户可以使用 General.sgmodule 后可移除 [URL Rewrite] 及 [MITM] 的「hostname = www.google.cn,api.abema.io」部分
+# 建议使用 General.sgmodule，其他 .sgmodule 按需加入
+# 未解锁「模块」功能的用户不要删除以下内容，参照说明(https://github.com/DivineEngine/Profiles/tree/master/Surge)使用快捷指令更新相关内容。
+
+[URL Rewrite]
+# Redirect HTTP to HTTPS
+^https?:\/\/(www.)?taobao\.com\/ https://taobao.com/ 302
+^https?:\/\/(www.)?jd\.com\/ https://www.jd.com/ 302
+^https?:\/\/(www.)?mi\.com\/ https://www.mi.com/ 302
+^https?:\/\/you\.163\.com\/ https://you.163.com/ 302
+^https?:\/\/(www.)?suning\.com\/ https://suning.com/ 302
+^https?:\/\/(www.)?yhd\.com\/ https://yhd.com/ 302
+# Redirect False to True
+# > Firefox - www.firefox.com.cn
+^https?:\/\/(www.)?firefox\.com\.cn\/(download\/)?$ https://www.mozilla.org/zh-CN/firefox/new/ 302
+# > IGN China to IGN Global
+^https?:\/\/(www.)?ign\.xn--fiqs8s\/ http://cn.ign.com/ccpref/us 302
+# > Fake Website Made By C&J Marketing
+^https?:\/\/(www.)?abbyychina\.com\/ https://www.abbyy.cn/ 302
+^https?:\/\/(www.)?anydeskchina.cn/ https://anydesk.com/zhs 302
+^https?:\/\/(www.)?bartender\.cc\/ https://www.macbartender.com/ 302
+^https?:\/\/(www.)?(betterzipcn|betterzip)\.(com|net)\/ https://macitbetter.com/ 302
+^https?:\/\/(www.)?beyondcompare\.cc\/ https://www.scootersoftware.com/ 302
+^https?:\/\/(www.)?bingdianhuanyuan\.cn\/ https://www.faronics.com/zh-hans/products/deep-freeze 302
+^https?:\/\/(www.)?chemdraw\.com\.cn\/ https://www.perkinelmer.com.cn/ 302
+^https?:\/\/(www.)?codesoftchina\.com\/ https://www.teklynx.com/ 302
+^https?:\/\/(www.)?coreldrawchina\.com\/ https://www.coreldraw.com/cn/ 302
+^https?:\/\/(www.)?crossoverchina\.com\/ https://www.codeweavers.com/ 302
+^https?:\/\/(www.)?dongmansoft\.com\/ https://www.udongman.cn/ 302
+^https?:\/\/(www.)?earmasterchina\.cn\/ https://www.earmaster.com/ 302
+^https?:\/\/(www.)?easyrecoverychina\.com\/ https://www.ontrack.com/ 302
+^https?:\/\/(www.)?ediuschina\.com\/ https://www.grassvalley.com/ 302
+^https?:\/\/(www.)?flstudiochina\.com\/ https://www.image-line.com/ 302
+^https?:\/\/(www.)?formysql\.com\/ https://www.navicat.com.cn/ 302
+^https?:\/\/(www.)?guitarpro\.cc\/ https://www.guitar-pro.com/ 302
+^https?:\/\/(www.)?huishenghuiying\.com\.cn\/ https://www.coreldraw.com/cn/ 302
+^https?:\/\/hypersnap\.mairuan\.com\/ https://www.hyperionics.com/ 302
+^https?:\/\/(www.)?iconworkshop\.cn\/ https://www.axialis.com/ 302
+^https?:\/\/(www.)?idmchina\.net\/ https://www.internetdownloadmanager.com/ 302
+^https?:\/\/(www.)?imindmap\.cc\/ https://www.ayoa.com/previously-imindmap/ 302
+^https?:\/\/(www.)?jihehuaban\.com\.cn\/ https://www.chartwellyorke.com/sketchpad/x24795.html 302
+^https?:\/\/hypersnap\.mairuan\.com\/ https://www.keyshot.com/ 302
+^https?:\/\/(www.)?kingdeecn\.cn\/ http://www.kingdee.com/ 302
+^https?:\/\/(www.)?logoshejishi\.com https://www.sothink.com/product/logo-design-software/ 302
+^https?:\/\/logoshejishi\.mairuan\.com\/ https://www.sothink.com/product/logo-design-software/ 302
+^https?:\/\/(www.)?luping\.net\.cn\/ https://www.techsmith.com/ 302
+^https?:\/\/(www.)?mathtype\.cn\/ https://www.dessci.com/ 302
+^https?:\/\/(www.)?mindmanager\.(cc|cn)\/ https://www.mindjet.com/cn/ 302
+^https?:\/\/(www.)?mindmapper\.cc\/ https://www.mindmapper.com/ 302
+^https?:\/\/(www.)?(mycleanmymac|xitongqingli)\.com\/ https://macpaw.com/ 302
+^https?:\/\/(www.)?nicelabel\.cc\/ https://www.nicelabel.com/zh/ 302
+^https?:\/\/(www.)?ntfsformac\.cc\/ https://www.tuxera.com/products/tuxera-ntfs-for-mac-cn/ 302
+^https?:\/\/(www.)?ntfsformac\.cn\/ https://china.paragon-software.com/home-mac/ntfs-for-mac/ 302
+^https?:\/\/(www.)?overturechina\.com\/ https://sonicscores.com/ 302
+^https?:\/\/(www.)?passwordrecovery\.cn\/ https://cn.elcomsoft.com/aopr.html 302
+^https?:\/\/(www.)?pdfexpert\.cc\/ https://pdfexpert.com/zh 302
+^https?:\/\/(www.)?photozoomchina\.com\/ https://www.benvista.com/ 302
+^https?:\/\/(www.)?shankejingling\.com\/ https://www.sothink.com/product/flashdecompiler/ 302
+^https?:\/\/cn\.ultraiso\.net\/ https://cn.ezbsystems.com/ultraiso/ 302
+^https?:\/\/(www.)?vegaschina\.cn\/ https://www.vegascreativesoftware.com/ 302
+^https?:\/\/(www.)?xshellcn\.com\/ https://www.netsarang.com/zh/xshell/ 302
+^https?:\/\/(www.)?yuanchengxiezuo\.com\/ https://www.teamviewer.com/ 302
+^https?:\/\/(www.)?zbrushcn.com/ https://pixologic.com/ 302
+# AbeamTV - api.abema.io
+^https?:\/\/api\.abema\.io\/v\d\/ip\/check - reject
+# AICoin
+^http:\/\/(www.)?aicoin\.cn\/$ https://www.aicoin.com/ 302
+# Block Ads Start
+# Block Ads End
+
+# ssid名称为"Mac mini"的Wi-Fi暂停使用surge 
+[SSID Setting]
+"Mac mini" suspend=true
+
+[MITM]
+skip-server-cert-verify = true
+tcp-connection = true
+hostname = www.firefox.com.cn, ms.jr.jd.com, me-api.jd.com, api.m.jd.com, 113.96.156.178, *.ximalaya.com, *.smzdm.com
+ca-passphrase = 1C061C89
+ca-p12 = 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
+
+[Script]
+彩票查询 = type=cron,cronexp=30 21 * * *,script-path=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/ssq/ssq.js,script-update-interval=0
+京东签到 = type=cron,cronexp=5 0 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js,script-update-interval=0
+// 获取京东Cookie = type=http-request,requires-body=1,pattern=^https:\/\/(api\.m|me-api|ms\.jr)\.jd\.com\/(client\.action\?functionId=signBean|user_new\/info\/GetJDUserInfoUnion\?|gw\/generic\/hy\/h5\/m\/appSign\?),script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
+// ximalaya.cookie.js = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.cookie.js,type=http-request,pattern=^https?:\/\/.*\/mobile\-user\/(v1\/)?homePage\/.*
+ximalaya.js = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/ximalaya/ximalaya.js,type=cron,cronexp=10 0  * * *,script-update-interval=0
+smzdm.cookie.js = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/smzdm/smzdm.cookie.js,type=http-request,pattern=^https:\/\/www\.smzdm\.com\/?.?
+smzdm.js = script-path=https://raw.githubusercontent.com/chavyleung/scripts/master/smzdm/smzdm.js,type=cron,cronexp=10 0 0 * * *
+
