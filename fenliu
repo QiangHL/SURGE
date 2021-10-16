@@ -1,5 +1,3 @@
-# SURGE
-
 [General]
 # 通用设置
 # > 增强版 Wi-Fi 助理
@@ -71,16 +69,16 @@ hide-udp = 0
 
 [Proxy Group]
 📶数据切换 = ssid, default = 🔎节点选择, cellular = 🆓联通免流, "Mac mini" = 🌐Direct
-🔎节点选择 = select, ♾负载均衡, ♻️自动选择, no-alert=0, hidden=0
-📺国际媒体 = select, 🔎节点选择, ♻️自动选择, ☁️代理订阅, no-alert=0, hidden=0
-🎬国内媒体 = select, 🌐Direct, no-alert=0, hidden=0
-🚫全球拦截 = select, ⛔️Reject, 🌐Direct, no-alert=0, hidden=0
-♾负载均衡 = fallback, ☁️代理订阅, no-alert=0, hidden=0
-♻️自动选择 = url-test, ☁️代理订阅, no-alert=0, hidden=0
-☑️手动切换 = select, 🔎节点选择, 🌐Direct, ⛔️Reject, no-alert=0, hidden=0
-🆓联通免流 = url-test, policy-path=https://sub.store/download/mlsao, update-interval=3600, no-alert=0, hidden=1
-☁️代理订阅 = select, policy-path=https://sub.store/download/muguayun, update-interval=0, no-alert=0, hidden=0
+🔎节点选择 = select, ♻️自动选择, ☑️手动切换, ♾负载均衡, no-alert=0, hidden=0
+♻️自动选择 = url-test, no-alert=0, hidden=0, policy-path=https://sub.store/download/muguayun, update-interval=0
+☑️手动切换 = select, 🌐Direct, ⛔️Reject, no-alert=0, hidden=0, policy-path=https://sub.store/download/collection/Qiang, update-interval=0
+📺国际媒体 = select, ♻️自动选择, ☁️机场订阅, no-alert=0, hidden=0
+🎬国内媒体 = select, 🌐Direct, no-alert=0, hidden=1
+🚫全球拦截 = select, ⛔️Reject, no-alert=0, hidden=1
+♾负载均衡 = fallback, no-alert=0, hidden=1, policy-path=https://sub.store/download/collection/Qiang, update-interval=0
+🆓联通免流 = url-test, policy-path=https://sub.store/download/mlsao, update-interval=3600, no-alert=0, hidden=0
 🐟 漏网之鱼 = select, ♻️自动选择, 🔎节点选择, ☑️手动切换, no-alert=0, hidden=0
+☁️机场订阅 = select, policy-path=https://sub.store/download/muguayun, update-interval=0, no-alert=0, hidden=0
 
 [Rule]
 CELLULAR-CARRIER,460-01,📶数据切换
@@ -103,10 +101,11 @@ RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ru
 RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Advertising.list,🚫全球拦截
 DOMAIN-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/AdvertisingPlus.list,🚫全球拦截
 # Privacy 隐私
-# RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Privacy.list,🚫全球拦截
+RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Privacy.list,🚫全球拦截
 # Hijacking 运营商劫持或恶意网站
 RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/Guard/Hijacking.list,🚫全球拦截
 # Streaming 国际流媒体服务
+RULE-SET,https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list,🆓联通免流
 RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/StreamingMedia/Streaming.list,📺国际媒体
 # StreamingSE 中国流媒体服务（面向海外版本）
 RULE-SET,https://raw.githubusercontent.com/DivineEngine/Profiles/master/Surge/Ruleset/StreamingMedia/StreamingSE.list,🎬国内媒体
@@ -203,8 +202,8 @@ falogin.cn = server:syslib
 ^http:\/\/(www.)?aicoin\.cn\/$ https://www.aicoin.com/ 302
 # Block Ads Start
 # Block Ads End
+# ssid名称为"Mac mini"的Wi-Fi暂停使用surge
 
-# ssid名称为"Mac mini"的Wi-Fi暂停使用surge 
 [SSID Setting]
 "Mac mini" suspend=true
 
